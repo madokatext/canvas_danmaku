@@ -138,6 +138,8 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
           text: '弹幕',
           style: TextStyle(
             fontSize: _option.fontSize,
+            fontFamily:
+                _option.fontFamily.isEmpty ? null : _option.fontFamily,
             height: _option.lineHeight,
           ),
         ),
@@ -164,6 +166,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
       content: content,
       fontSize: _option.fontSize,
       fontWeight: _option.fontWeight,
+      fontFamily: _option.fontFamily,
     );
 
     final danmakuWidth = (content.selfSend
@@ -190,6 +193,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
           fontSize: _option.fontSize,
           fontWeight: _option.fontWeight,
           strokeWidth: _option.strokeWidth,
+          fontFamily: _option.fontFamily,
         ));
 
     for (var i = 0; i < _trackCount; i++) {
@@ -262,6 +266,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                 content: content as SpecialDanmakuContentItem,
                 fontWeight: _option.fontWeight,
                 strokeWidth: _option.strokeWidth,
+                fontFamily: _option.fontFamily,
               )),
         );
         if (_running && !_ticker.isActive) {
@@ -323,10 +328,12 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
     }
 
     final fontSizeChanged = option.fontSize != _option.fontSize;
+    final fontFamilyChanged = option.fontFamily != _option.fontFamily;
 
     final clearScroll = option.hideScroll && !_option.hideScroll;
 
     final clearParagraph = fontSizeChanged ||
+        fontFamilyChanged ||
         option.fontWeight != _option.fontWeight ||
         option.strokeWidth != _option.strokeWidth;
 
@@ -380,10 +387,13 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
     final areaChanged = option.area != _option.area;
     final safeAreaChanged = option.safeArea != _option.safeArea;
     _option = option;
-    if (fontSizeChanged) {
+    if (fontSizeChanged || fontFamilyChanged) {
       _danmakuHeight = _textPainter.height;
     }
-    if (fontSizeChanged || areaChanged || safeAreaChanged) {
+    if (fontSizeChanged ||
+        fontFamilyChanged ||
+        areaChanged ||
+        safeAreaChanged) {
       _calcTracks();
     }
 
@@ -527,6 +537,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                     durationInMilliseconds: _scrollVelocityOrDuration,
                     fontSize: _option.fontSize,
                     fontWeight: _option.fontWeight,
+                    fontFamily: _option.fontFamily,
                     strokeWidth: _option.strokeWidth,
                     running: _running,
                     tick: value,
@@ -550,6 +561,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                         _option.staticDurationInMilliseconds,
                     fontSize: _option.fontSize,
                     fontWeight: _option.fontWeight,
+                    fontFamily: _option.fontFamily,
                     strokeWidth: _option.strokeWidth,
                     tick: _notifier.value,
                   ),
@@ -570,6 +582,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                     danmakuItems: _specialDanmakuItems,
                     fontSize: _option.fontSize,
                     fontWeight: _option.fontWeight,
+                    fontFamily: _option.fontFamily,
                     strokeWidth: _option.strokeWidth,
                     running: _running,
                     tick: value,
