@@ -16,14 +16,19 @@ abstract final class DmUtils {
     _selfSendPaint.strokeWidth = strokeWidth;
   }
 
+  static String? _resolveFontFamily(String fontFamily) =>
+      fontFamily.isEmpty ? null : fontFamily;
+
   static ui.Paragraph generateParagraph({
     required DanmakuContentItem content,
     required double fontSize,
     required int fontWeight,
+    required String fontFamily,
   }) {
     final builder = ui.ParagraphBuilder(ui.ParagraphStyle(
       textAlign: TextAlign.left,
       fontWeight: FontWeight.values[fontWeight],
+      fontFamily: _resolveFontFamily(fontFamily),
       textDirection: TextDirection.ltr,
       maxLines: 1,
     ));
@@ -52,6 +57,7 @@ abstract final class DmUtils {
     required double fontSize,
     required int fontWeight,
     required double strokeWidth,
+    required String fontFamily,
   }) {
     double w = contentParagraph.maxIntrinsicWidth + strokeWidth;
     double h = contentParagraph.height + strokeWidth;
@@ -71,6 +77,7 @@ abstract final class DmUtils {
       final builder = ui.ParagraphBuilder(ui.ParagraphStyle(
         textAlign: TextAlign.left,
         fontWeight: FontWeight.values[fontWeight],
+        fontFamily: _resolveFontFamily(fontFamily),
         textDirection: TextDirection.ltr,
         maxLines: 1,
       ));
@@ -128,10 +135,12 @@ abstract final class DmUtils {
     required SpecialDanmakuContentItem content,
     required int fontWeight,
     required double strokeWidth,
+    required String fontFamily,
   }) {
     final builder = ui.ParagraphBuilder(ui.ParagraphStyle(
       textAlign: TextAlign.left,
       fontWeight: FontWeight.values[fontWeight],
+      fontFamily: _resolveFontFamily(fontFamily),
       textDirection: TextDirection.ltr,
       fontSize: content.fontSize,
     ))
