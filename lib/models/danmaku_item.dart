@@ -12,7 +12,10 @@ class DanmakuItem<T> {
 
   /// 弹幕高度
   double height;
-
+  /// 绘制图片相对逻辑包围盒额外向四周扩出的空间。
+  ///
+  /// 只用于容纳阴影，不参与轨道、碰撞和滚动距离计算。
+  double effectOverflow;
   /// 弹幕水平方向位置
   double xPosition;
 
@@ -43,6 +46,7 @@ class DanmakuItem<T> {
     required this.content,
     required this.height,
     required this.width,
+    this.effectOverflow = 0,
     this.xPosition = 0,
     this.image,
     this.drawTick,
@@ -80,11 +84,18 @@ class DanmakuItem<T> {
   shadowRadius,
 );
 
+// 图片需要的总留白，减去描边原本已经占用的半宽。
+// 这一部分只允许向逻辑包围盒之外扩展。
+effectOverflow =
+    effectPadding - strokeWidth / 2.0;
+
+// 逻辑尺寸保持阴影功能加入前的语义：
+// 文字尺寸 + 两侧描边。
 width = paragraph.maxIntrinsicWidth +
-    effectPadding * 2 +
+    strokeWidth +
     (content.selfSend ? 4.0 : 0.0);
 
-height = paragraph.height + effectPadding * 2;
+height = paragraph.height + strokeWidth;
       paragraph.dispose();
     }
   }
