@@ -165,18 +165,26 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
     bool added = false;
 
     final paragraph = DmUtils.generateParagraph(
-      content: content,
-      fontSize: _option.fontSize,
-      fontWeight: _option.fontWeight,
-      fontFamily: _option.fontFamily,
-      fontFamilyFallback: _option.fontFamilyFallback,
-    );
+  content: content,
+  fontSize: _option.fontSize,
+  fontWeight: _option.fontWeight,
+  shadowRadius: _option.shadowRadius,
+  fontFamily: _option.fontFamily,
+  fontFamilyFallback: _option.fontFamilyFallback,
+);
 
-    final danmakuWidth = (content.selfSend
-            ? paragraph.maxIntrinsicWidth + 4
-            : paragraph.maxIntrinsicWidth) +
-        _option.strokeWidth;
-    final danmakuHeight = paragraph.height + _option.strokeWidth;
+    final effectPadding = DmUtils.effectPadding(
+  _option.strokeWidth,
+  _option.shadowRadius,
+);
+
+final danmakuWidth = (content.selfSend
+        ? paragraph.maxIntrinsicWidth + 4
+        : paragraph.maxIntrinsicWidth) +
+    effectPadding * 2;
+
+final danmakuHeight =
+    paragraph.height + effectPadding * 2;
 
     if (!scroll &&
         content.type != DanmakuItemType.scroll &&
@@ -196,6 +204,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
           fontSize: _option.fontSize,
           fontWeight: _option.fontWeight,
           strokeWidth: _option.strokeWidth,
+          shadowRadius: _option.shadowRadius,
           fontFamily: _option.fontFamily,
           fontFamilyFallback: _option.fontFamilyFallback,
         ));
@@ -342,9 +351,10 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
     final clearScroll = option.hideScroll && !_option.hideScroll;
 
     final clearParagraph = fontSizeChanged ||
-        fontFamilyChanged ||
-        option.fontWeight != _option.fontWeight ||
-        option.strokeWidth != _option.strokeWidth;
+    fontFamilyChanged ||
+    option.fontWeight != _option.fontWeight ||
+    option.strokeWidth != _option.strokeWidth ||
+    option.shadowRadius != _option.shadowRadius;
 
     final needRestart = _ticker.isActive && clearScroll && clearParagraph;
     if (needRestart) {
@@ -379,7 +389,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
 
     /// 清理已经存在的 Paragraph 缓存
     if (clearParagraph) {
-      DmUtils.updateSelfSendPaint(_option.strokeWidth);
+      DmUtils.updateSelfSendPaint(option.strokeWidth);
       for (var i in _scrollDanmakuItems) {
         for (var e in i) {
           e.dispose();
@@ -549,6 +559,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                     fontFamily: _option.fontFamily,
                     fontFamilyFallback: _option.fontFamilyFallback,
                     strokeWidth: _option.strokeWidth,
+                    shadowRadius: _option.shadowRadius,
                     running: _running,
                     tick: value,
                   ),
@@ -574,6 +585,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                     fontFamily: _option.fontFamily,
                     fontFamilyFallback: _option.fontFamilyFallback,
                     strokeWidth: _option.strokeWidth,
+                    shadowRadius: _option.shadowRadius,
                     tick: _notifier.value,
                   ),
                   size: widget.size,
