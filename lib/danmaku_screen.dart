@@ -178,13 +178,18 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
   _option.shadowRadius,
 );
 
+final effectOverflow =
+    effectPadding - _option.strokeWidth / 2.0;
+
+// 阴影不能参与逻辑宽度，否则会改变滚动距离和碰撞时间。
 final danmakuWidth = (content.selfSend
         ? paragraph.maxIntrinsicWidth + 4
         : paragraph.maxIntrinsicWidth) +
-    effectPadding * 2;
+    _option.strokeWidth;
 
+// 阴影不能参与逻辑高度，否则顶部第一轨会随阴影向下移动。
 final danmakuHeight =
-    paragraph.height + effectPadding * 2;
+    paragraph.height + _option.strokeWidth;
 
     if (!scroll &&
         content.type != DanmakuItemType.scroll &&
@@ -197,6 +202,7 @@ final danmakuHeight =
         xPosition: _viewWidth,
         width: danmakuWidth,
         height: danmakuHeight,
+      effectOverflow: effectOverflow,
         content: content,
         image: DmUtils.recordDanmakuImage(
           contentParagraph: paragraph,
