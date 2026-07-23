@@ -13,6 +13,7 @@ final class StaticDanmakuPainter extends CustomPainter {
   final String fontFamily;
   final List<String> fontFamilyFallback;
   final double strokeWidth;
+  final double shadowRadius;
   final int tick;
 
   StaticDanmakuPainter({
@@ -25,6 +26,7 @@ final class StaticDanmakuPainter extends CustomPainter {
     required this.fontFamily,
     required this.fontFamilyFallback,
     required this.strokeWidth,
+    required this.shadowRadius,
     required this.tick,
   });
 
@@ -39,6 +41,7 @@ final class StaticDanmakuPainter extends CustomPainter {
             fontSize,
             fontWeight,
             strokeWidth,
+          shadowRadius,
             fontFamily,
             fontFamilyFallback,
           )
@@ -61,5 +64,6 @@ final class StaticDanmakuPainter extends CustomPainter {
       oldDelegate.fontWeight != fontWeight ||
       oldDelegate.fontFamily != fontFamily ||
       !listEquals(oldDelegate.fontFamilyFallback, fontFamilyFallback) ||
-      oldDelegate.strokeWidth != strokeWidth;
+      oldDelegate.strokeWidth != strokeWidth ||
+oldDelegate.shadowRadius != shadowRadius;
 }
