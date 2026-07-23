@@ -9,6 +9,7 @@ abstract base class BaseDanmakuPainter extends CustomPainter {
   final String fontFamily;
   final List<String> fontFamilyFallback;
   final double strokeWidth;
+  final double shadowRadius;
   final bool running;
   final int batchThreshold;
   final int tick;
@@ -23,6 +24,7 @@ abstract base class BaseDanmakuPainter extends CustomPainter {
     required this.fontFamily,
     required this.fontFamilyFallback,
     required this.strokeWidth,
+    this.shadowRadius = 0,
     required this.running,
     required this.tick,
     this.batchThreshold = 10, // 默认值为10，可以自行调整
@@ -53,6 +55,7 @@ abstract base class BaseDanmakuPainter extends CustomPainter {
         oldDelegate.fontWeight != fontWeight ||
         oldDelegate.fontFamily != fontFamily ||
         !listEquals(oldDelegate.fontFamilyFallback, fontFamilyFallback) ||
-        oldDelegate.strokeWidth != strokeWidth;
+        oldDelegate.strokeWidth != strokeWidth ||
+oldDelegate.shadowRadius != shadowRadius;
   }
 }
