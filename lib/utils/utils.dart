@@ -8,6 +8,19 @@ abstract final class DmUtils {
   static const maxRasterizeSize = 8192.0;
 
   static double devicePixelRatio = 1;
+  static double effectPadding(
+  double strokeWidth,
+  double shadowRadius,
+) {
+  final strokePadding = strokeWidth / 2.0;
+
+  // 高斯模糊实际扩散范围会超过 blurRadius 本身，
+  // 使用两倍半径避免图片边缘明显裁切。
+  final shadowPadding =
+      shadowRadius > 0 ? shadowRadius * 2.0 : 0.0;
+
+  return max(strokePadding, shadowPadding);
+}
   static final Paint _selfSendPaint = Paint()
     ..style = PaintingStyle.stroke
     ..color = Colors.green;
@@ -82,12 +95,21 @@ static void _paintHighLikeIcon({
       fontFamily.isEmpty ? null : fontFamily;
 
   static ui.Paragraph generateParagraph({
-    required DanmakuContentItem content,
-    required double fontSize,
-    required int fontWeight,
-    required String fontFamily,
-    required List<String> fontFamilyFallback,
-  }) {
+  required DanmakuContentItem content,
+  required double fontSize,
+  required int fontWeight,
+  required double shadowRadius,
+  required String fontFamily,
+  required List<String> fontFamilyFallback,
+}) {final shadows = shadowRadius > 0
+    ? <Shadow>[
+        Shadow(
+          color: Colors.black,
+          offset: Offset.zero,
+          blurRadius: shadowRadius,
+        ),
+      ]
+    : null;
     final builder = ui.ParagraphBuilder(ui.ParagraphStyle(
       textAlign: TextAlign.left,
       fontWeight: FontWeight.values[fontWeight],
@@ -104,6 +126,7 @@ _addHighLikePlaceholder(builder, content, fontSize);
           fontWeight: FontWeight.values[fontWeight],
           fontFamily: _resolveFontFamily(fontFamily),
           fontFamilyFallback: fontFamilyFallback,
+          shadows: shadows,
         ))
         ..addText('($count)')
         ..pop();
@@ -116,6 +139,7 @@ _addHighLikePlaceholder(builder, content, fontSize);
         fontWeight: FontWeight.values[fontWeight],
         fontFamily: _resolveFontFamily(fontFamily),
         fontFamilyFallback: fontFamilyFallback,
+        shadows: shadows,
       ))
       ..addText(content.text);
 
@@ -129,16 +153,25 @@ _addHighLikePlaceholder(builder, content, fontSize);
     required double fontSize,
     required int fontWeight,
     required double strokeWidth,
+    required double shadowRadius,
     required String fontFamily,
     required List<String> fontFamilyFallback,
   }) {
-    double w = contentParagraph.maxIntrinsicWidth + strokeWidth;
-    double h = contentParagraph.height + strokeWidth;
+    final padding = effectPadding(
+  strokeWidth,
+  shadowRadius,
+);
 
-    final offset = Offset(
-      (strokeWidth / 2.0) + (content.selfSend ? 2.0 : 0.0),
-      strokeWidth / 2.0,
-    );
+double w =
+    contentParagraph.maxIntrinsicWidth + padding * 2;
+
+double h =
+    contentParagraph.height + padding * 2;
+
+final offset = Offset(
+  padding + (content.selfSend ? 2.0 : 0.0),
+  padding,
+);
 
     final rec = ui.PictureRecorder();
     final canvas = ui.Canvas(rec);
