@@ -15,7 +15,69 @@ abstract final class DmUtils {
   static void updateSelfSendPaint(double strokeWidth) {
     _selfSendPaint.strokeWidth = strokeWidth;
   }
+static const Color _highLikeIconColor = Color(0xFFFFB38A);
 
+static double _highLikeIconSize(double fontSize) => fontSize * 0.95;
+
+static double _highLikeIconGap(double fontSize) => fontSize * 0.28;
+
+static double _highLikeLeadingWidth(double fontSize) =>
+    _highLikeIconSize(fontSize) + _highLikeIconGap(fontSize);
+
+static void _addHighLikePlaceholder(
+  ui.ParagraphBuilder builder,
+  DanmakuContentItem content,
+  double fontSize,
+) {
+  if (!content.showLikeIcon) {
+    return;
+  }
+
+  builder.addPlaceholder(
+    _highLikeLeadingWidth(fontSize),
+    _highLikeIconSize(fontSize),
+    ui.PlaceholderAlignment.middle,
+  );
+}
+
+static void _paintHighLikeIcon({
+  required ui.Canvas canvas,
+  required DanmakuContentItem content,
+  required double fontSize,
+  required double paragraphHeight,
+  required Offset offset,
+}) {
+  if (!content.showLikeIcon) {
+    return;
+  }
+
+  const icon = Icons.thumb_up_alt_rounded;
+
+  final painter = TextPainter(
+    text: TextSpan(
+      text: String.fromCharCode(icon.codePoint),
+      style: TextStyle(
+        inherit: false,
+        color: _highLikeIconColor,
+        fontSize: _highLikeIconSize(fontSize),
+        fontFamily: icon.fontFamily,
+        package: icon.fontPackage,
+        height: 1,
+      ),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
+
+  painter.paint(
+    canvas,
+    Offset(
+      offset.dx,
+      offset.dy + (paragraphHeight - painter.height) / 2,
+    ),
+  );
+
+  painter.dispose();
+}
   static String? _resolveFontFamily(String fontFamily) =>
       fontFamily.isEmpty ? null : fontFamily;
 
