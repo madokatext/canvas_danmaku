@@ -95,7 +95,7 @@ static void _paintHighLikeIcon({
       textDirection: TextDirection.ltr,
       maxLines: 1,
     ));
-
+_addHighLikePlaceholder(builder, content, fontSize);
     if (content.count case final count?) {
       builder
         ..pushStyle(ui.TextStyle(
@@ -154,6 +154,7 @@ static void _paintHighLikeIcon({
         textDirection: TextDirection.ltr,
         maxLines: 1,
       ));
+      _addHighLikePlaceholder(builder, content, fontSize);
       final Paint strokePaint = Paint()
         ..shader = content.isColorful
             ? const LinearGradient(
@@ -198,7 +199,13 @@ static void _paintHighLikeIcon({
     }
 
     canvas.drawParagraph(contentParagraph, offset);
-
+_paintHighLikeIcon(
+  canvas: canvas,
+  content: content,
+  fontSize: fontSize,
+  paragraphHeight: contentParagraph.height,
+  offset: offset,
+);
     if (content.selfSend) {
       w += 4;
       canvas.drawRect(Rect.fromLTRB(0, 0, w, h), _selfSendPaint);
@@ -221,23 +228,27 @@ static void _paintHighLikeIcon({
     required List<String> fontFamilyFallback,
   }) {
     final builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-      textAlign: TextAlign.left,
-      fontWeight: FontWeight.values[fontWeight],
-      fontFamily: _resolveFontFamily(fontFamily),
-      textDirection: TextDirection.ltr,
-      fontSize: content.fontSize,
-    ))
-      ..pushStyle(ui.TextStyle(
-        color: content.color,
-        fontSize: content.fontSize,
-        fontWeight: FontWeight.values[fontWeight],
-        fontFamily: _resolveFontFamily(fontFamily),
-        fontFamilyFallback: fontFamilyFallback,
-        shadows: content.hasStroke
-            ? [Shadow(color: Colors.black, blurRadius: strokeWidth)]
-            : null,
-      ))
-      ..addText(content.text);
+  textAlign: TextAlign.left,
+  fontWeight: FontWeight.values[fontWeight],
+  fontFamily: _resolveFontFamily(fontFamily),
+  textDirection: TextDirection.ltr,
+  fontSize: content.fontSize,
+));
+
+_addHighLikePlaceholder(builder, content, content.fontSize);
+
+builder
+  ..pushStyle(ui.TextStyle(
+    color: content.color,
+    fontSize: content.fontSize,
+    fontWeight: FontWeight.values[fontWeight],
+    fontFamily: _resolveFontFamily(fontFamily),
+    fontFamilyFallback: fontFamilyFallback,
+    shadows: content.hasStroke
+        ? [Shadow(color: Colors.black, blurRadius: strokeWidth)]
+        : null,
+  ))
+  ..addText(content.text);
 
     final paragraph = builder.build()
       ..layout(const ui.ParagraphConstraints(width: double.infinity));
@@ -269,14 +280,32 @@ static void _paintHighLikeIcon({
       } else {
         canvas.rotate(content.rotateZ);
       }
-      canvas.drawParagraph(paragraph, Offset.zero);
+      const paragraphOffset = Offset.zero;
+canvas.drawParagraph(paragraph, paragraphOffset);
+
+_paintHighLikeIcon(
+  canvas: canvas,
+  content: content,
+  fontSize: content.fontSize,
+  paragraphHeight: paragraph.height,
+  offset: paragraphOffset,
+);
     } else {
       rect = Rect.fromLTRB(0, 0, totalWidth, totalHeight);
 
       if (devicePixelRatio != 1) {
         canvas.scale(devicePixelRatio);
       }
-      canvas.drawParagraph(paragraph, Offset(strokeOffset, strokeOffset));
+      final paragraphOffset = Offset(strokeOffset, strokeOffset);
+canvas.drawParagraph(paragraph, paragraphOffset);
+
+_paintHighLikeIcon(
+  canvas: canvas,
+  content: content,
+  fontSize: content.fontSize,
+  paragraphHeight: paragraph.height,
+  offset: paragraphOffset,
+);
     }
     paragraph.dispose();
 
