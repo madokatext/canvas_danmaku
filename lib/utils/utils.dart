@@ -30,7 +30,6 @@ abstract final class DmUtils {
       textAlign: TextAlign.left,
       fontWeight: FontWeight.values[fontWeight],
       fontFamily: _resolveFontFamily(fontFamily),
-      fontFamilyFallback: fontFamilyFallback,
       textDirection: TextDirection.ltr,
       maxLines: 1,
     ));
@@ -40,13 +39,22 @@ abstract final class DmUtils {
         ..pushStyle(ui.TextStyle(
           color: content.color,
           fontSize: fontSize * 0.6,
+          fontWeight: FontWeight.values[fontWeight],
+          fontFamily: _resolveFontFamily(fontFamily),
+          fontFamilyFallback: fontFamilyFallback,
         ))
         ..addText('($count)')
         ..pop();
     }
 
     builder
-      ..pushStyle(ui.TextStyle(color: content.color, fontSize: fontSize))
+      ..pushStyle(ui.TextStyle(
+        color: content.color,
+        fontSize: fontSize,
+        fontWeight: FontWeight.values[fontWeight],
+        fontFamily: _resolveFontFamily(fontFamily),
+        fontFamilyFallback: fontFamilyFallback,
+      ))
       ..addText(content.text);
 
     return builder.build()
@@ -81,7 +89,6 @@ abstract final class DmUtils {
         textAlign: TextAlign.left,
         fontWeight: FontWeight.values[fontWeight],
         fontFamily: _resolveFontFamily(fontFamily),
-        fontFamilyFallback: fontFamilyFallback,
         textDirection: TextDirection.ltr,
         maxLines: 1,
       ));
@@ -103,13 +110,22 @@ abstract final class DmUtils {
           ..pushStyle(ui.TextStyle(
             fontSize: fontSize * 0.6,
             foreground: strokePaint,
+            fontWeight: FontWeight.values[fontWeight],
+            fontFamily: _resolveFontFamily(fontFamily),
+            fontFamilyFallback: fontFamilyFallback,
           ))
           ..addText('($count)')
           ..pop();
       }
 
       builder
-        ..pushStyle(ui.TextStyle(fontSize: fontSize, foreground: strokePaint))
+        ..pushStyle(ui.TextStyle(
+          fontSize: fontSize,
+          foreground: strokePaint,
+          fontWeight: FontWeight.values[fontWeight],
+          fontFamily: _resolveFontFamily(fontFamily),
+          fontFamilyFallback: fontFamilyFallback,
+        ))
         ..addText(content.text);
 
       final strokeParagraph = builder.build()
@@ -146,13 +162,15 @@ abstract final class DmUtils {
       textAlign: TextAlign.left,
       fontWeight: FontWeight.values[fontWeight],
       fontFamily: _resolveFontFamily(fontFamily),
-      fontFamilyFallback: fontFamilyFallback,
       textDirection: TextDirection.ltr,
       fontSize: content.fontSize,
     ))
       ..pushStyle(ui.TextStyle(
         color: content.color,
         fontSize: content.fontSize,
+        fontWeight: FontWeight.values[fontWeight],
+        fontFamily: _resolveFontFamily(fontFamily),
+        fontFamilyFallback: fontFamilyFallback,
         shadows: content.hasStroke
             ? [Shadow(color: Colors.black, blurRadius: strokeWidth)]
             : null,
