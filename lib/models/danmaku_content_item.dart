@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 enum DanmakuItemType { scroll, top, bottom, special }
 
 class DanmakuContentItem<T> {
+  /// 是否在正文左侧绘制高赞大拇指标识
+final bool showLikeIcon;
   /// 弹幕文本
   final String text;
 
@@ -33,12 +35,13 @@ class DanmakuContentItem<T> {
     this.selfSend = false,
     this.isColorful = false,
     this.count,
+      this.showLikeIcon = false,
     this.extra,
   });
 
   @override
   String toString() {
-    return '${objectRuntimeType(this, "DanmakuContentItem<?>")}(text="$text", color=0x${color.toARGB32().toRadixString(16)}, type=${type.name}${count != null ? ", count=$count" : ""}${selfSend ? ", selfSend" : ""}${isColorful ? ", colorful" : ""}${extra != null ? ". extra=$extra" : ""})';
+    return '${objectRuntimeType(this, "DanmakuContentItem<?>")}(text="$text", color=0x${color.toARGB32().toRadixString(16)}, type=${type.name}${count != null ? ", count=$count" : ""}${selfSend ? ", selfSend" : ""}${isColorful ? ", colorful" : ""}${showLikeIcon ? ", likeIcon" : ""}${extra != null ? ". extra=$extra" : ""})';
   }
 }
 
