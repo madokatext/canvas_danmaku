@@ -31,21 +31,55 @@ abstract base class BaseDanmakuPainter extends CustomPainter {
   });
 
   static void paintImg(
-    Canvas canvas,
-    DanmakuItem item,
-    double dx,
-    double dy,
-  ) {
-    final img = item.image!;
-    if (img.width == item.width.ceil()) {
-      canvas.drawImage(img, Offset(dx, dy), _paint);
-    } else {
-      final src =
-          Rect.fromLTWH(0, 0, img.width.toDouble(), img.height.toDouble());
-      final dst = Rect.fromLTWH(dx, dy, item.width, item.height);
-      canvas.drawImageRect(img, src, dst, _paint);
-    }
+  Canvas canvas,
+  DanmakuItem item,
+  double dx,
+  double dy,
+) {
+  final img = item.image!;
+  final overflow = item.effectOverflow;
+
+  // 实际图片包含逻辑包围盒之外的阴影空间。
+  final drawWidth = item.width + overflow * 2;
+  final drawHeight = item.height + overflow * 2;
+
+  // 将图片向左、向上移动 overflow，
+  // 保证文字和描边仍处于原来的逻辑位置。
+  final drawOffset = Offset(
+    dx - overflow,
+    dy - overflow,
+  );
+
+  if (img.width == drawWidth.ceil() &&
+      img.height == drawHeight.ceil()) {
+    canvas.drawImage(
+      img,
+      drawOffset,
+      _paint,
+    );
+  } else {
+    final src = Rect.fromLTWH(
+      0,
+      0,
+      img.width.toDouble(),
+      img.height.toDouble(),
+    );
+
+    final dst = Rect.fromLTWH(
+      drawOffset.dx,
+      drawOffset.dy,
+      drawWidth,
+      drawHeight,
+    );
+
+    canvas.drawImageRect(
+      img,
+      src,
+      dst,
+      _paint,
+    );
   }
+}
 
   @override
   bool shouldRepaint(covariant BaseDanmakuPainter oldDelegate) {
