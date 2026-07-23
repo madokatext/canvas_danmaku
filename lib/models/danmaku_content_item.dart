@@ -87,6 +87,7 @@ class SpecialDanmakuContentItem<T> extends DanmakuContentItem<T> {
     int? translationDuration,
     this.translationStartDelay = 0,
     super.count,
+      super.showLikeIcon,
     this.easingType = Curves.linear,
     super.extra,
   }) : translationDuration = translationDuration ?? duration;
@@ -98,6 +99,7 @@ class SpecialDanmakuContentItem<T> extends DanmakuContentItem<T> {
     double videoX = 1920,
     double videoY = 1080,
     bool disableGradient = false,
+      bool showLikeIcon = false,
     T? extra,
   }) {
     final (startX, endX) = _toRelativePosition(list[0], list[7], videoX);
@@ -152,6 +154,7 @@ class SpecialDanmakuContentItem<T> extends DanmakuContentItem<T> {
       rotateZ: rotateZ,
       matrix: matrix,
       // motionPathMetric: null,
+      showLikeIcon: showLikeIcon,
       easingType: easingType,
       extra: extra,
     );
