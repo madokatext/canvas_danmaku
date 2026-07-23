@@ -19,6 +19,7 @@ final class ScrollDanmakuPainter extends BaseDanmakuPainter {
     required super.fontFamily,
     required super.fontFamilyFallback,
     required super.strokeWidth,
+    required super.shadowRadius,
     required super.running,
     required super.tick,
     super.batchThreshold,
@@ -74,6 +75,7 @@ final class ScrollDanmakuPainter extends BaseDanmakuPainter {
       fontSize,
       fontWeight,
       strokeWidth,
+      shadowRadius,
       fontFamily,
       fontFamilyFallback,
     );
