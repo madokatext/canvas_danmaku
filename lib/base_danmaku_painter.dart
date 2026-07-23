@@ -1,4 +1,5 @@
 import 'package:canvas_danmaku/canvas_danmaku.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 abstract base class BaseDanmakuPainter extends CustomPainter {
@@ -6,6 +7,7 @@ abstract base class BaseDanmakuPainter extends CustomPainter {
   final double fontSize;
   final int fontWeight;
   final String fontFamily;
+  final List<String> fontFamilyFallback;
   final double strokeWidth;
   final bool running;
   final int batchThreshold;
@@ -19,6 +21,7 @@ abstract base class BaseDanmakuPainter extends CustomPainter {
     required this.fontSize,
     required this.fontWeight,
     required this.fontFamily,
+    required this.fontFamilyFallback,
     required this.strokeWidth,
     required this.running,
     required this.tick,
@@ -49,6 +52,7 @@ abstract base class BaseDanmakuPainter extends CustomPainter {
         oldDelegate.fontSize != fontSize ||
         oldDelegate.fontWeight != fontWeight ||
         oldDelegate.fontFamily != fontFamily ||
+        !listEquals(oldDelegate.fontFamilyFallback, fontFamilyFallback) ||
         oldDelegate.strokeWidth != strokeWidth;
   }
 }

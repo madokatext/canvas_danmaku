@@ -17,6 +17,7 @@ final class ScrollDanmakuPainter extends BaseDanmakuPainter {
     required super.fontSize,
     required super.fontWeight,
     required super.fontFamily,
+    required super.fontFamilyFallback,
     required super.strokeWidth,
     required super.running,
     required super.tick,
@@ -74,6 +75,7 @@ final class ScrollDanmakuPainter extends BaseDanmakuPainter {
       fontWeight,
       strokeWidth,
       fontFamily,
+      fontFamilyFallback,
     );
     if (!item.suspend) {
       final startPosition = size.width;

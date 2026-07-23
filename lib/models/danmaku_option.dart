@@ -10,6 +10,9 @@ class DanmakuOption {
   /// 字体家族，空字符串表示跟随系统默认字体
   final String fontFamily;
 
+  /// 字体回退列表，按顺序为主字体缺少的字符查找字形
+  final List<String> fontFamilyFallback;
+
   /// 显示区域，0.1-1.0
   final double area;
 
@@ -64,6 +67,7 @@ class DanmakuOption {
     this.fontSize = 16,
     this.fontWeight = 4,
     this.fontFamily = '',
+    this.fontFamilyFallback = const <String>[],
     this.area = 1.0,
     this.duration = 10,
     this.staticDuration = 5,
@@ -84,6 +88,7 @@ class DanmakuOption {
     double? fontSize,
     int? fontWeight,
     String? fontFamily,
+    List<String>? fontFamilyFallback,
     double? area,
     double? duration,
     double? staticDuration,
@@ -103,6 +108,7 @@ class DanmakuOption {
       fontSize: fontSize ?? this.fontSize,
       fontWeight: fontWeight ?? this.fontWeight,
       fontFamily: fontFamily ?? this.fontFamily,
+      fontFamilyFallback: fontFamilyFallback ?? this.fontFamilyFallback,
       duration: duration ?? this.duration,
       staticDuration: staticDuration ?? this.staticDuration,
       hideTop: hideTop ?? this.hideTop,

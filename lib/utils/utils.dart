@@ -24,11 +24,13 @@ abstract final class DmUtils {
     required double fontSize,
     required int fontWeight,
     required String fontFamily,
+    required List<String> fontFamilyFallback,
   }) {
     final builder = ui.ParagraphBuilder(ui.ParagraphStyle(
       textAlign: TextAlign.left,
       fontWeight: FontWeight.values[fontWeight],
       fontFamily: _resolveFontFamily(fontFamily),
+      fontFamilyFallback: fontFamilyFallback,
       textDirection: TextDirection.ltr,
       maxLines: 1,
     ));
@@ -58,6 +60,7 @@ abstract final class DmUtils {
     required int fontWeight,
     required double strokeWidth,
     required String fontFamily,
+    required List<String> fontFamilyFallback,
   }) {
     double w = contentParagraph.maxIntrinsicWidth + strokeWidth;
     double h = contentParagraph.height + strokeWidth;
@@ -78,6 +81,7 @@ abstract final class DmUtils {
         textAlign: TextAlign.left,
         fontWeight: FontWeight.values[fontWeight],
         fontFamily: _resolveFontFamily(fontFamily),
+        fontFamilyFallback: fontFamilyFallback,
         textDirection: TextDirection.ltr,
         maxLines: 1,
       ));
@@ -136,11 +140,13 @@ abstract final class DmUtils {
     required int fontWeight,
     required double strokeWidth,
     required String fontFamily,
+    required List<String> fontFamilyFallback,
   }) {
     final builder = ui.ParagraphBuilder(ui.ParagraphStyle(
       textAlign: TextAlign.left,
       fontWeight: FontWeight.values[fontWeight],
       fontFamily: _resolveFontFamily(fontFamily),
+      fontFamilyFallback: fontFamilyFallback,
       textDirection: TextDirection.ltr,
       fontSize: content.fontSize,
     ))

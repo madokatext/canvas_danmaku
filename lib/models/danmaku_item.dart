@@ -53,6 +53,7 @@ class DanmakuItem<T> {
     int fontWeight,
     double strokeWidth,
     String fontFamily,
+    List<String> fontFamilyFallback,
   ) {
     if (image == null) {
       final paragraph = DmUtils.generateParagraph(
@@ -60,6 +61,7 @@ class DanmakuItem<T> {
         fontSize: fontSize,
         fontWeight: fontWeight,
         fontFamily: fontFamily,
+        fontFamilyFallback: fontFamilyFallback,
       );
       image = DmUtils.recordDanmakuImage(
         contentParagraph: paragraph,
@@ -68,6 +70,7 @@ class DanmakuItem<T> {
         fontWeight: fontWeight,
         strokeWidth: strokeWidth,
         fontFamily: fontFamily,
+        fontFamilyFallback: fontFamilyFallback,
       );
       width = paragraph.maxIntrinsicWidth +
           strokeWidth +

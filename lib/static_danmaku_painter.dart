@@ -1,5 +1,6 @@
 import 'package:canvas_danmaku/base_danmaku_painter.dart';
 import 'package:canvas_danmaku/models/danmaku_item.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 final class StaticDanmakuPainter extends CustomPainter {
@@ -10,6 +11,7 @@ final class StaticDanmakuPainter extends CustomPainter {
   final double fontSize;
   final int fontWeight;
   final String fontFamily;
+  final List<String> fontFamilyFallback;
   final double strokeWidth;
   final int tick;
 
@@ -21,6 +23,7 @@ final class StaticDanmakuPainter extends CustomPainter {
     required this.fontSize,
     required this.fontWeight,
     required this.fontFamily,
+    required this.fontFamilyFallback,
     required this.strokeWidth,
     required this.tick,
   });
@@ -37,6 +40,7 @@ final class StaticDanmakuPainter extends CustomPainter {
             fontWeight,
             strokeWidth,
             fontFamily,
+            fontFamilyFallback,
           )
           ..xPosition = (size.width - item.width) / 2;
 
@@ -56,5 +60,6 @@ final class StaticDanmakuPainter extends CustomPainter {
       oldDelegate.fontSize != fontSize ||
       oldDelegate.fontWeight != fontWeight ||
       oldDelegate.fontFamily != fontFamily ||
+      !listEquals(oldDelegate.fontFamilyFallback, fontFamilyFallback) ||
       oldDelegate.strokeWidth != strokeWidth;
 }

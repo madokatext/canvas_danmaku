@@ -8,6 +8,7 @@ import 'package:canvas_danmaku/scroll_danmaku_painter.dart';
 import 'package:canvas_danmaku/special_danmaku_painter.dart';
 import 'package:canvas_danmaku/static_danmaku_painter.dart';
 import 'package:canvas_danmaku/utils/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -140,6 +141,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
             fontSize: _option.fontSize,
             fontFamily:
                 _option.fontFamily.isEmpty ? null : _option.fontFamily,
+            fontFamilyFallback: _option.fontFamilyFallback,
             height: _option.lineHeight,
           ),
         ),
@@ -167,6 +169,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
       fontSize: _option.fontSize,
       fontWeight: _option.fontWeight,
       fontFamily: _option.fontFamily,
+      fontFamilyFallback: _option.fontFamilyFallback,
     );
 
     final danmakuWidth = (content.selfSend
@@ -194,6 +197,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
           fontWeight: _option.fontWeight,
           strokeWidth: _option.strokeWidth,
           fontFamily: _option.fontFamily,
+          fontFamilyFallback: _option.fontFamilyFallback,
         ));
 
     for (var i = 0; i < _trackCount; i++) {
@@ -267,6 +271,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                 fontWeight: _option.fontWeight,
                 strokeWidth: _option.strokeWidth,
                 fontFamily: _option.fontFamily,
+                fontFamilyFallback: _option.fontFamilyFallback,
               )),
         );
         if (_running && !_ticker.isActive) {
@@ -328,7 +333,11 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
     }
 
     final fontSizeChanged = option.fontSize != _option.fontSize;
-    final fontFamilyChanged = option.fontFamily != _option.fontFamily;
+    final fontFamilyChanged = option.fontFamily != _option.fontFamily ||
+        !listEquals(
+          option.fontFamilyFallback,
+          _option.fontFamilyFallback,
+        );
 
     final clearScroll = option.hideScroll && !_option.hideScroll;
 
@@ -538,6 +547,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                     fontSize: _option.fontSize,
                     fontWeight: _option.fontWeight,
                     fontFamily: _option.fontFamily,
+                    fontFamilyFallback: _option.fontFamilyFallback,
                     strokeWidth: _option.strokeWidth,
                     running: _running,
                     tick: value,
@@ -562,6 +572,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                     fontSize: _option.fontSize,
                     fontWeight: _option.fontWeight,
                     fontFamily: _option.fontFamily,
+                    fontFamilyFallback: _option.fontFamilyFallback,
                     strokeWidth: _option.strokeWidth,
                     tick: _notifier.value,
                   ),
@@ -583,6 +594,7 @@ class _DanmakuScreenState<T> extends State<DanmakuScreen<T>>
                     fontSize: _option.fontSize,
                     fontWeight: _option.fontWeight,
                     fontFamily: _option.fontFamily,
+                    fontFamilyFallback: _option.fontFamilyFallback,
                     strokeWidth: _option.strokeWidth,
                     running: _running,
                     tick: value,
