@@ -52,6 +52,7 @@ class DanmakuItem<T> {
     double fontSize,
     int fontWeight,
     double strokeWidth,
+    double shadowRadius,
     String fontFamily,
     List<String> fontFamilyFallback,
   ) {
@@ -60,6 +61,7 @@ class DanmakuItem<T> {
         content: content,
         fontSize: fontSize,
         fontWeight: fontWeight,
+        shadowRadius: shadowRadius,
         fontFamily: fontFamily,
         fontFamilyFallback: fontFamilyFallback,
       );
@@ -69,13 +71,20 @@ class DanmakuItem<T> {
         fontSize: fontSize,
         fontWeight: fontWeight,
         strokeWidth: strokeWidth,
+        shadowRadius: shadowRadius,
         fontFamily: fontFamily,
         fontFamilyFallback: fontFamilyFallback,
       );
-      width = paragraph.maxIntrinsicWidth +
-          strokeWidth +
-          (content.selfSend ? 4.0 : 0.0);
-      height = paragraph.height + strokeWidth;
+      final effectPadding = DmUtils.effectPadding(
+  strokeWidth,
+  shadowRadius,
+);
+
+width = paragraph.maxIntrinsicWidth +
+    effectPadding * 2 +
+    (content.selfSend ? 4.0 : 0.0);
+
+height = paragraph.height + effectPadding * 2;
       paragraph.dispose();
     }
   }
